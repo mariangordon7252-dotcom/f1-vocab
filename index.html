@@ -1266,16 +1266,18 @@ body:not(.light) .teamcard img.inv{filter:invert(1) hue-rotate(180deg)}
 @keyframes chev{0%,100%{opacity:.25}40%{opacity:1}}
 .ts-go:active{transform:skewX(-14deg) translate(3px,3px);box-shadow:3px 3px 0 rgba(0,0,0,.45)}
 @media (max-width:760px){
-  /* 手机竖屏：完整画面放在上方，信息叠在下方 */
-  .tv-media .fgv{top:70px;bottom:auto;left:4%;right:4%;width:92%;height:calc(92vw * 9 / 16);object-position:center center}
-  .tv-shade{background:linear-gradient(0deg,#07080b 10%,rgba(7,8,11,.55) 50%,rgba(7,8,11,.2) 75%,rgba(7,8,11,.7) 100%)}
-  .tv-head{left:30px}
-  .tv-tag{top:calc(82px + 92vw * 9 / 16);right:4%}
-  .tv-info{left:30px;right:20px;max-width:none;bottom:calc(180px + env(safe-area-inset-bottom))}
-  .tv-info h1{font-size:20vw}
-  .tv-mq{font-size:26vw;bottom:calc(150px + env(safe-area-inset-bottom))}
-  .tv-logo{height:8vh}
-  .tv-arw{top:calc(150px + 92vw * 9 / 16)}
+  /* 手机竖屏，从上到下：标题行（躲开刘海 / 灵动岛）→ ONBOARD 计时行 → 通栏视频 → 车队信息压在视频下沿 → 计数 + 出发键 */
+  .tv-head{left:30px;right:16px;top:calc(10px + env(safe-area-inset-top))}
+  .tv-tag{top:calc(66px + env(safe-area-inset-top));right:16px;left:auto}
+  .tv-media .fgv{top:calc(104px + env(safe-area-inset-top));bottom:auto;left:0;right:0;width:100%;height:90vw;
+    object-fit:cover;object-position:center center}
+  .tv-shade{background:
+    linear-gradient(0deg,#07080b 0,#07080b 26%,rgba(7,8,11,.55) 40%,rgba(7,8,11,0) 56%,rgba(7,8,11,0) 84%,rgba(7,8,11,.75) 100%),
+    linear-gradient(90deg,rgba(7,8,11,.6),rgba(7,8,11,0) 60%)}
+  .tv-info{left:30px;right:20px;max-width:none;bottom:calc(170px + env(safe-area-inset-bottom))}
+  .tv-info h1{font-size:19vw}
+  .tv-mq{font-size:26vw;bottom:calc(140px + env(safe-area-inset-bottom))}
+  .tv-logo{height:min(8vh,70px);margin:12px 0 4px}
   .tv-nav{left:30px;bottom:calc(100px + env(safe-area-inset-bottom))}
   .tv-cnt{font-size:24px}
   .ts-go{left:22px;right:16px;bottom:calc(24px + env(safe-area-inset-bottom))}
