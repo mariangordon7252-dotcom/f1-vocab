@@ -1,6 +1,7 @@
 /* 离线缓存：第一次联网打开后，页面、图标和车队视频都存进手机，以后没网也能用。
    页面优先走网络（联网时总能拿到最新版），断网时用缓存；视频和图标优先用缓存。 */
-var CACHE = 'f1-vocab-20261026222609';
+var CACHE = 'f1-vocab-20261026224256';
+var VCACHE = 'f1-vocab-videos';   // 视频单独放，更新软件时不用重新下载 32MB 视频
 var CORE = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', function (e) {
@@ -10,10 +11,10 @@ self.addEventListener('install', function (e) {
 var VIDEOS = ['videos/mclaren.mp4', 'videos/mercedes.mp4', 'videos/redbull.mp4', 'videos/ferrari.mp4', 'videos/williams.mp4', 'videos/bulls.mp4', 'videos/aston.mp4', 'videos/haas.mp4', 'videos/audi.mp4', 'videos/alpine.mp4', 'videos/cadillac.mp4'];
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) {
-    return Promise.all(ks.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+    return Promise.all(ks.filter(function (k) { return k !== CACHE && k !== VCACHE; }).map(function (k) { return caches.delete(k); }));
   }).then(function () { return self.clients.claim(); }).then(function () {
     /* 后台把 11 段车队视频都存下来（约 32MB，第一次最好连 Wi-Fi），一段一段来，失败的下次再补 */
-    return caches.open(CACHE).then(function (c) {
+    return caches.open(VCACHE).then(function (c) {
       return VIDEOS.reduce(function (p, v) {
         return p.then(function () {
           var u = new URL(v, self.registration.scope).href;
@@ -43,7 +44,7 @@ self.addEventListener('fetch', function (e) {
   if (req.method !== 'GET' || url.origin !== location.origin) return;
 
   if (/\.mp4$/.test(url.pathname)) {
-    e.respondWith(caches.open(CACHE).then(function (c) {
+    e.respondWith(caches.open(VCACHE).then(function (c) {
       return c.match(url.href).then(function (hit) {
         if (hit) return req.headers.get('range') ? partial(hit, req.headers.get('range')) : hit;
         e.waitUntil(fetch(url.href).then(function (r) { if (r.status === 200) return c.put(url.href, r); }).catch(function () {}));

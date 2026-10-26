@@ -1238,6 +1238,8 @@ body:not(.light) .teamcard img.inv{filter:invert(1) hue-rotate(180deg)}
 .tsel.wiping.back .tv-wipe{animation-name:tvWipeB}
 @keyframes tvWipe{from{transform:translateX(120%) skewX(-22deg)}to{transform:translateX(-120%) skewX(-22deg)}}
 @keyframes tvWipeB{from{transform:translateX(-120%) skewX(-22deg)}to{transform:translateX(120%) skewX(-22deg)}}
+/* 手机等触屏设备直接左右滑，不显示电脑用的左右箭头（选车队、正赛卡片） */
+@media (hover:none) and (pointer:coarse){ .tv-arw,.rc-arw{display:none!important} }
 .tv-arw{position:absolute;top:44%;z-index:6;width:44px;height:64px;min-height:64px;padding:0;margin-top:-32px;
   background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:0;color:#fff;
   font-size:26px;font-weight:900;transform:skewX(-12deg)}
